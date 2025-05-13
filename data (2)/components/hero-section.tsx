@@ -139,9 +139,13 @@ export default function HeroSection({ personalDetails }: HeroSectionProps) {
               size="lg"
               className="hover-target"
               onClick={() => {
-                // Implement CV download logic
-                alert("CV download functionality will be implemented")
-              }}
+  const link = document.createElement("a")
+  link.href = "/AliAwj.pdf"
+  link.download = "AliAwj.pdf"
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}}
             >
               Download CV
               <Download className="ml-2 h-4 w-4" />
