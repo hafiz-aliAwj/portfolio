@@ -18,7 +18,6 @@ interface ParticleBackgroundProps {
   particleCount?: number
   particleSize?: number
   particleSpeed?: number
-  particleColor?: string
   connectParticles?: boolean
   responsive?: boolean
 }
@@ -28,7 +27,6 @@ export default function ParticleBackground({
   particleCount = 50,
   particleSize = 3,
   particleSpeed = 1,
-  particleColor = "currentColor",
   connectParticles = true,
   responsive = true,
 }: ParticleBackgroundProps) {
@@ -37,28 +35,43 @@ export default function ParticleBackground({
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const animationRef = useRef<number>()
 
+  // Get dynamic color
+  const getColor = () => {
+    const style = getComputedStyle(document.documentElement)
+    return {
+      particle: style.getPropertyValue('--tw-prose-links') || '#fff',
+      line: style.getPropertyValue('--tw-prose-invert') || 'rgba(255,255,255,0.2)',
+    }
+  }
+
   // Initialize particles
   useEffect(() => {
-    if (!canvasRef.current) return
-
     const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
+    const ctx = canvas?.getContext("2d")
+    if (!canvas || !ctx) return
 
-    // Set canvas dimensions
-    const updateDimensions = () => {
-      if (!canvas.parentElement) return
-      const { width, height } = canvas.parentElement.getBoundingClientRect()
-      canvas.width = width
-      canvas.height = height
+    const parent = canvas.parentElement
+    if (!parent) return
+
+    const resize = () => {
+      const { width, height } = parent.getBoundingClientRect()
+      canvas.width = width * window.devicePixelRatio
+      canvas.height = height * window.devicePixelRatio
+      canvas.style.width = `${width}px`
+      canvas.style.height = `${height}px`
+      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0)
       setDimensions({ width, height })
     }
 
-    updateDimensions()
+    // Initial resize + observe parent
+    resize()
+    const resizeObserver = new ResizeObserver(resize)
+    resizeObserver.observe(parent)
 
     // Create particles
-    const newParticles: Particle[] = []
+    const colorSet = getColor()
     const count = responsive ? Math.floor(particleCount * (dimensions.width / 1920)) : particleCount
+    const newParticles: Particle[] = []
 
     for (let i = 0; i < count; i++) {
       newParticles.push({
@@ -67,42 +80,34 @@ export default function ParticleBackground({
         size: Math.random() * particleSize + 1,
         speedX: (Math.random() - 0.5) * particleSpeed,
         speedY: (Math.random() - 0.5) * particleSpeed,
-        color: particleColor,
+        color: colorSet.particle,
         opacity: Math.random() * 0.5 + 0.2,
       })
     }
 
     setParticles(newParticles)
 
-    // Handle resize
-    if (responsive) {
-      window.addEventListener("resize", updateDimensions)
-      return () => window.removeEventListener("resize", updateDimensions)
-    }
-  }, [particleCount, particleSize, particleSpeed, particleColor, responsive, dimensions.width])
+    return () => resizeObserver.disconnect()
+  }, [particleCount, particleSize, particleSpeed, responsive])
 
-  // Animation loop
+  // Animate particles
   useEffect(() => {
-    if (!canvasRef.current || particles.length === 0) return
-
     const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
+    const ctx = canvas?.getContext("2d")
+    if (!canvas || !ctx || particles.length === 0) return
+
+    const colorSet = getColor()
 
     const animate = () => {
-      ctx.clearRect(0, 0, dimensions.width, dimensions.height)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Update and draw particles
       const updatedParticles = particles.map((p) => {
-        // Update position
         p.x += p.speedX
         p.y += p.speedY
 
-        // Bounce off edges
         if (p.x < 0 || p.x > dimensions.width) p.speedX *= -1
         if (p.y < 0 || p.y > dimensions.height) p.speedY *= -1
 
-        // Draw particle
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
         ctx.fillStyle = p.color
@@ -112,10 +117,9 @@ export default function ParticleBackground({
         return p
       })
 
-      // Connect particles
       if (connectParticles) {
-        ctx.globalAlpha = 0.1
-        ctx.strokeStyle = particleColor
+        ctx.globalAlpha = 0.2
+        ctx.strokeStyle = colorSet.line
         ctx.lineWidth = 0.5
 
         for (let i = 0; i < updatedParticles.length; i++) {
@@ -140,14 +144,12 @@ export default function ParticleBackground({
     animate()
 
     return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current)
-      }
+      if (animationRef.current) cancelAnimationFrame(animationRef.current)
     }
-  }, [particles, dimensions, connectParticles, particleColor])
+  }, [particles, dimensions, connectParticles])
 
   return (
-    <div className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}>
+    <div className={cn("absolute inset-0 overflow-hidden pointer-events-none z-[-1]", className)}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   )
