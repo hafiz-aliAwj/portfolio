@@ -99,16 +99,7 @@ const mockPersonalDetails: PersonalDetailsi = {
 }
 
 async function getProject(id: string) {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ""}/api/projects/${id}`, {
-      cache: "no-store",
-    })
-
-    if (!res.ok) {
-      return mockProjects[id] || null
-    }
-
-    const data = await res.json()
+  
     return data.project || mockProjects[id] || null
   } catch (error) {
     console.error("Error fetching project:", error)
