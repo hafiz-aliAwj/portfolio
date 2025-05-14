@@ -14,6 +14,7 @@ import ScrollIndicator from "@/components/scroll-indicator"
 import PageTransition from "@/components/page-transition"
 import ScrollContainer from "@/components/scroll-container"
 import type { PersonalDetailsi, Skilli, Project, Experiencei, Educationi } from "@/lib/models"
+import ParallaxBackground from "@/components/parallax-background"
 
 // Mock data for when APIs don't return data
 const mockPersonalDetails: PersonalDetailsi = {
@@ -38,6 +39,7 @@ const mockSkills: Skilli[] = [
     level: 90,
     category: "Frontend",
     sequence: 1,
+    imgUrl: "/placeholder.svg",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -46,6 +48,7 @@ const mockSkills: Skilli[] = [
     level: 85,
     category: "Frontend",
     sequence: 2,
+    imgUrl: "/placeholder.svg",
     createdAt: new Date(),
     updatedAt: new Date(),
   },
@@ -53,6 +56,7 @@ const mockSkills: Skilli[] = [
     name: "Next.js",
     level: 88,
     category: "Frontend",
+    imgUrl: "/placeholder.svg",
     sequence: 3,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -61,6 +65,7 @@ const mockSkills: Skilli[] = [
     name: "Tailwind CSS",
     level: 92,
     category: "Frontend",
+    imgUrl: "/placeholder.svg",
     sequence: 4,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -77,6 +82,7 @@ const mockSkills: Skilli[] = [
     name: "Express",
     level: 82,
     category: "Backend",
+    imgUrl: "/placeholder.svg",
     sequence: 6,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -85,18 +91,11 @@ const mockSkills: Skilli[] = [
     name: "MongoDB",
     level: 78,
     category: "Backend",
+    imgUrl: "/placeholder.svg",
     sequence: 7,
     createdAt: new Date(),
     updatedAt: new Date(),
-  },
-  {
-    name: "Figma",
-    level: 75,
-    category: "Design",
-    sequence: 8,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
+  }
 ]
 
 const mockProjects: Project[] = [
@@ -225,37 +224,38 @@ export default async function Home() {
       <Navbar />
 
       <PageTransition type="fade">
+        {/* <ParallaxBackground /> */}
         <ParticleBackground particleCount={150} connectParticles />
 
         <Suspense fallback={<div>Loading...</div>}>
           <HeroSection personalDetails={personalDetails} />
         </Suspense>
 
-        <SectionDivider variant="wave" />
+        {/* <SectionDivider variant="wave" /> */}
 
         <Suspense fallback={<div>Loading...</div>}>
           <SkillsSection skills={skills} />
         </Suspense>
 
-        <SectionDivider variant="curve" flip />
+        {/* <SectionDivider variant="curve" flip /> */}
 
         <Suspense fallback={<div>Loading...</div>}>
           <ProjectsSection projects={projects} />
         </Suspense>
 
-        <SectionDivider variant="triangle" />
+        {/* <SectionDivider variant="triangle" />/ */}
 
         <Suspense fallback={<div>Loading...</div>}>
           <ExperienceSection experiences={experiences} />
         </Suspense>
 
-        <SectionDivider variant="zigzag" flip />
+        {/* <SectionDivider variant="zigzag" flip /> */}
 
         <Suspense fallback={<div>Loading...</div>}>
           <EducationSection education={education} />
         </Suspense>
 
-        <SectionDivider variant="wave" />
+        {/* <SectionDivider variant="wave" />/ */}
 
         <Suspense fallback={<div>Loading...</div>}>
           <ContactSection personalDetails={personalDetails} />

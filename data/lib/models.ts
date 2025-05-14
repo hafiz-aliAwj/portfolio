@@ -20,9 +20,9 @@ export interface Project {
   longDescription?: string
   images: string[]
   technologies: string[]
-  keywords: string[]
-  githubUrl: string
-  liveUrl: string
+  keywords?: string[]
+  githubUrl?: string
+  liveUrl?: string
   features?: string[]
   client?: string
   duration?: string
@@ -38,6 +38,7 @@ export interface Skilli {
   name: string
   level: number
   category: string
+  imgUrl?: string
   sequence: number
   createdAt: Date
   updatedAt: Date
@@ -100,6 +101,7 @@ export interface PersonalDetailsi {
     twitter?: string
     instagram?: string
     facebook?: string
+    whatsapp?: string
   }
   createdAt: Date
   updatedAt: Date

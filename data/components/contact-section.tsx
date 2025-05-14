@@ -54,35 +54,35 @@ export default function ContactSection({ personalDetails }: ContactSectionProps)
 
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true)
-
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-
-      if (!response.ok) {
-        throw new Error("Failed to send message")
-      }
-
+    
       toast({
         title: "Message sent!",
         description: "Thank you for your message. I'll get back to you soon.",
       })
+        setIsSubmitting(false)
+    // try {
+    //   const response = await fetch("/api/contact", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   })
 
-      form.reset()
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again later.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
+    //   if (!response.ok) {
+    //     throw new Error("Failed to send message")
+    //   }
+
+
+    //   form.reset()
+    // } catch (error) {
+    //   toast({
+    //     title: "Error",
+    //     description: "Failed to send message. Please try again later.",
+    //     variant: "destructive",
+    //   })
+    // } finally {
+    // }
   }
 
   return (

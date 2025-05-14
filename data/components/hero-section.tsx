@@ -1,19 +1,23 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { Typewriter } from "react-simple-typewriter"
-import { Download, ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import type { PersonalDetailsi } from "@/lib/models"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Typewriter } from "react-simple-typewriter";
+import { Download, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { PersonalDetailsi } from "@/lib/models";
 
 interface HeroSectionProps {
-  personalDetails?: PersonalDetailsi
+  personalDetails?: PersonalDetailsi;
 }
 
-// Mock data for when API doesn't return data
+const spring = {
+  type: "spring",
+  stiffness: 400,
+  damping: 20,
+}
+
 const mockPersonalDetails: PersonalDetailsi = {
   name: "Ali Awj",
   title: "Full Stack Developer",
@@ -28,143 +32,156 @@ const mockPersonalDetails: PersonalDetailsi = {
   },
   createdAt: new Date(),
   updatedAt: new Date(),
-}
+};
 
 export default function HeroSection({ personalDetails }: HeroSectionProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
-  const details = personalDetails || mockPersonalDetails
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const details = personalDetails || mockPersonalDetails;
 
-  const roles = ["Web Designer", "Web Developer", "Frontend Developer", "Backend Developer"]
+  const roles = [
+    "Web Designer",
+    "Web Developer",
+    "Frontend Developer",
+    "Backend Developer",
+  ];
 
   useEffect(() => {
-    // Set initial window size
-    setWindowSize({
-      width: window.innerWidth,
-      height: window.innerHeight,
-    })
-
     const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e
-      const centerX = window.innerWidth / 2
-      const centerY = window.innerHeight / 2
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX - innerWidth / 2) / (innerWidth / 2);
+      const y = (e.clientY - innerHeight / 2) / (innerHeight / 2);
+      setMousePosition({ x: x * 10, y: y * 10 });
+    };
 
-      // Calculate distance from center (normalized to -1 to 1)
-      const moveX = (clientX - centerX) / centerX
-      const moveY = (clientY - centerY) / centerY
-
-      setMousePosition({ x: moveX * 15, y: moveY * 15 })
-    }
-
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [])
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 px-6 md:px-20 overflow-hidden">
+      {/* Keep your background pattern */}
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] dark:opacity-[0.05] pointer-events-none" />
 
-      <div className="container mx-auto px-20 py-16 md:py-24 flex flex-col md:flex-row items-center">
-        {/* Left Content */}
+      <div className="relative z-10 max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 items-center gap-16">
+        {/* Text Content */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="w-full md:w-1/2 mb-12 md:mb-0"
+          className="text-center md:text-left"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-          >
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-6 bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-transparent bg-clip-text">
             Hi, I'm {details.name}
-          </motion.h1>
+          </h1>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-xl md:text-2xl lg:text-3xl font-medium mb-6 text-primary"
+            className="text-xl md:text-2xl font-medium mb-4 text-primary dark:text-white"
+            style={{
+              perspective: 1000,
+            }}
           >
-            I'm a{" "}
-            <span>
-              <Typewriter words={roles} loop cursor cursorStyle="|" typeSpeed={70} deleteSpeed={50} delaySpeed={1500} />
-            </span>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-lg text-muted-foreground mb-8 max-w-lg"
-          >
-            {details.bio}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="flex flex-wrap gap-4"
-          >
-            <Button
-              size="lg"
-              className="group hover-target"
-              onClick={() => {
-                const projectsSection = document.getElementById("projects")
-                if (projectsSection) {
-                  projectsSection.scrollIntoView({ behavior: "smooth" })
-                }
+            <motion.span
+              style={{
+                display: "inline-block",
+                transformStyle: "preserve-3d",
+              }}
+              animate={{
+                rotateX: mousePosition.y / 2,
+                rotateY: -mousePosition.x / 2,
+                transition: { type: "spring", stiffness: 100, damping: 20 },
               }}
             >
-              View My Work
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-
-            <Button
-              variant="outline"
-              size="lg"
-              className="hover-target"
-              onClick={() => {
-  const link = document.createElement("a")
-  link.href = "/AliAwj.pdf"
-  link.download = "AliAwj.pdf"
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}}
-            >
-              Download CV
-              <Download className="ml-2 h-4 w-4" />
-            </Button>
+              I'm a{" "}
+              <span className="inline-block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                <Typewriter
+                  words={roles}
+                  loop
+                  cursor
+                  cursorStyle="|"
+                  typeSpeed={70}
+                  deleteSpeed={50}
+                  delaySpeed={1500}
+                />
+              </span>
+            </motion.span>
           </motion.div>
+
+          <p className="text-muted-foreground max-w-md mb-6 mx-auto md:mx-0">
+            {details.bio}
+          </p>
+
+           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mt-4">
+      {/* Gradient Animated Button */}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={spring}
+        onClick={() => {
+          const projectsSection = document.getElementById("projects")
+          if (projectsSection) {
+            projectsSection.scrollIntoView({ behavior: "smooth" })
+          }
+        }}
+        className="relative group inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-white rounded-xl bg-gradient-to-br from-purple-600 via-pink-500 to-rose-500 shadow-lg transition-all duration-300"
+      >
+        <span className="relative z-10 flex items-center gap-2">
+          View My Work
+          <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+        </span>
+
+        {/* Glow ring */}
+        <motion.div
+          className="absolute inset-0 rounded-xl border border-white/20 opacity-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300 pointer-events-none"
+          animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.05, 1] }}
+          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        />
+      </motion.button>
+
+      {/* Glassmorphic Button with Motion */}
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={spring}
+        onClick={() => {
+          const link = document.createElement("a")
+          link.href = "/AliAwj.pdf"
+          link.download = "AliAwj.pdf"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }}
+        className="relative inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-blue-600 backdrop-blur-md bg-white/10 border border-white/20 rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+      >
+        <span className="flex items-center gap-2 z-10">
+          Download CV
+          <Download className="h-5 w-5" />
+        </span>
+
+        {/* Optional glow or highlight */}
+        <motion.div
+          className="absolute inset-0 rounded-xl bg-white/5 blur-xl opacity-0 group-hover:opacity-30 transition-all duration-300 pointer-events-none"
+          whileHover={{ opacity: 0.3 }}
+        />
+      </motion.button>
+    </div>
         </motion.div>
 
-        {/* Right Content - Profile Image */}
+        {/* 3D Profile Image */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="w-full md:w-1/2 flex justify-center md:justify-end"
-          style={{
-            transform: `perspective(1000px) rotateX(${mousePosition.y}deg) rotateY(${-mousePosition.x}deg)`,
-            transition: "transform 0.1s ease-out",
+          className="flex justify-center md:justify-end"
+          animate={{
+            rotateX: mousePosition.y,
+            rotateY: -mousePosition.x,
+            transition: { type: "spring", stiffness: 80, damping: 20 },
           }}
+          style={{ perspective: "1200px" }}
         >
-          <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl">
+          <div
+            className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl border border-white/10 backdrop-blur-xl bg-white/10 dark:bg-black/20"
+            style={{
+              transformStyle: "preserve-3d",
+            }}
+          >
             <Image
               src="/placeholder.svg?height=400&width=400"
               alt={details.name}
@@ -175,44 +192,6 @@ export default function HeroSection({ personalDetails }: HeroSectionProps) {
           </div>
         </motion.div>
       </div>
-
-      {/* Animated Background Elements - Client-side only */}
-      {/* <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-        {windowSize.width > 0 &&
-          [...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className={cn(
-                "absolute rounded-full bg-primary/10 dark:bg-primary/5",
-                i % 2 === 0 ? "w-64 h-64" : "w-96 h-96",
-              )}
-              initial={{
-                x: Math.random() * windowSize.width * 0.8,
-                y: Math.random() * windowSize.height * 0.8,
-                scale: Math.random() * 0.5 + 0.5,
-              }}
-              animate={{
-                x: [
-                  Math.random() * windowSize.width * 0.8,
-                  Math.random() * windowSize.width * 0.8,
-                  Math.random() * windowSize.width * 0.8,
-                ],
-                y: [
-                  Math.random() * windowSize.height * 0.8,
-                  Math.random() * windowSize.height * 0.8,
-                  Math.random() * windowSize.height * 0.8,
-                ],
-                scale: [Math.random() * 0.5 + 0.5, Math.random() * 0.7 + 0.3, Math.random() * 0.5 + 0.5],
-              }}
-              transition={{
-                repeat: Number.POSITIVE_INFINITY,
-                duration: 20 + i * 5,
-                ease: "linear",
-                repeatType: "reverse",
-              }}
-            />
-          ))}
-      </div> */}
     </section>
-  )
+  );
 }

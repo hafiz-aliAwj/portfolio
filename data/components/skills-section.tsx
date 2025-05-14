@@ -8,6 +8,8 @@ import Container from "@/components/container"
 import AnimatedProgress from "@/components/animated-progress"
 import { cn } from "@/lib/utils"
 import type { Skilli } from "@/lib/models"
+import Image from "next/image"
+import { string } from "zod"
 
 interface SkillsSectionProps {
   skills?: Skilli[]
@@ -37,7 +39,7 @@ export default function SkillsSection({ skills = [] }: SkillsSectionProps) {
   const categories = Object.keys(skillsByCategory)
 
   return (
-    <section id="skills" className="py-20 bg-muted/30">
+    <section id="skills" className="py-20 xl:px-14 bg-muted/30">
       <Container>
         <SectionHeading
           title="My Skills"
@@ -72,27 +74,31 @@ export default function SkillsSection({ skills = [] }: SkillsSectionProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {activeCategory &&
             skillsByCategory[activeCategory]?.map((skill, index) => (
-              <motion.div
+              <div className="transition-all duration-500 ease-in-out"
                 key={skill._id?.toString() || index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
+                // initial={{ opacity: 0, y: 20 }}
+                // whileInView={{ opacity: 1, y: 0 }}
+                // viewport={{ once: true, margin: "-100px" }}
+                // transition={{ duration: 0.5, delay: index * 0.1 }}
+                // whileHover={{ scale: 1.02 }}
               >
-                <Card className="overflow-hidden hover-target h-full">
+                <Card className="overflow-hidden h-full">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-center mb-2">
+                      <div className="flex justify-start items-center gap-x-2">
+                        <Image src={skill.imgUrl} alt={skill.name} width={50} height={50} className="rounded-full border-2 border-gray-200" />
+
                       <h3 className="text-lg font-bold">{skill.name}</h3>
+                      </div>
                       <span className="text-sm font-medium text-primary">{skill.level}%</span>
                     </div>
 
                     <AnimatedProgress value={skill.level} color="primary" height={8} delay={0.2 + index * 0.1} />
 
-                    {skill.description && <p className="text-sm text-muted-foreground mt-3">{skill.description}</p>}
+                    {/* {skill.description && <p className="text-sm text-muted-foreground mt-3">{skill.description}</p>} */}
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             ))}
         </div>
       </Container>
