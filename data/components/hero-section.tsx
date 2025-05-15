@@ -183,7 +183,7 @@ export default function HeroSection({ personalDetails }: HeroSectionProps) {
             }}
           >
             <Image
-              src="/placeholder.svg?height=400&width=400"
+              src="/123.png?height=400&width=400"
               alt={details.name}
               fill
               className="object-cover"
