@@ -50,7 +50,7 @@ export interface Experiencei {
   title: string
   company: string
   period: string
-  description: string
+  description: string[]
   skills: string[]
   sequence: number
   createdAt: Date

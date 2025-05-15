@@ -151,8 +151,8 @@ const mockExperiences: Experiencei[] = [
     title: "Senior Frontend Developer",
     company: "Tech Innovations Inc.",
     period: "2021 - Present",
-    description:
-      "Leading the frontend development team, implementing new features, and optimizing performance for a SaaS platform with over 100,000 users.",
+    description:["Leading the frontend development team, implementing new features, and optimizing performance for a SaaS platform with over 100,000 users.","Leading the frontend development team, implementing new features, and optimizing performance for a SaaS platform with over 100,000 users."],
+      
     skills: ["React", "TypeScript", "Next.js", "GraphQL"],
     sequence: 1,
     createdAt: new Date(),
@@ -162,8 +162,8 @@ const mockExperiences: Experiencei[] = [
     title: "Full Stack Developer",
     company: "Digital Solutions Ltd.",
     period: "2018 - 2021",
-    description:
-      "Developed and maintained multiple web applications, implemented responsive designs, and integrated third-party APIs.",
+    description:["Developed and maintained multiple web applications, implemented responsive designs, and integrated third-party APIs."]
+      ,
     skills: ["JavaScript", "Node.js", "MongoDB", "Express"],
     sequence: 2,
     createdAt: new Date(),
@@ -173,8 +173,8 @@ const mockExperiences: Experiencei[] = [
     title: "Frontend Developer",
     company: "Creative Web Agency",
     period: "2016 - 2018",
-    description:
-      "Created responsive websites for clients across various industries, focusing on performance and user experience.",
+    description:["Created responsive websites for clients across various industries, focusing on performance and user experience."]
+      ,
     skills: ["HTML", "CSS", "JavaScript", "jQuery"],
     sequence: 3,
     createdAt: new Date(),
@@ -213,8 +213,8 @@ const mockEducation: Educationi[] = [
 
 export default async function Home() {
 
-  const [personalDetails, skills, projects, experiences, education] =  [
-    mockPersonalDetails,mockSkills,mockProjects,mockExperiences,mockEducation
+  const [personalDetails, skills, projects, experiences ] =  [
+    mockPersonalDetails,mockSkills,mockProjects,mockExperiences
   ]
 
   return (
@@ -251,9 +251,9 @@ export default async function Home() {
 
         {/* <SectionDivider variant="zigzag" flip /> */}
 
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense fallback={<div>Loading...</div>}>
           <EducationSection education={education} />
-        </Suspense>
+        </Suspense> */}
 
         {/* <SectionDivider variant="wave" />/ */}
 

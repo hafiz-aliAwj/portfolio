@@ -26,7 +26,7 @@ export default function ExperienceSection({ experiences = [] }: ExperienceSectio
             initial={{ scaleY: 0 }}
             whileInView={{ scaleY: 1 }}
             transition={{ duration: 1 }}
-            className="absolute left-1/2 top-0 bottom-0 w-[4px] bg-gradient-to-b from-primary via-primary/60 to-transparent transform -translate-x-1/2 z-0 shadow-[0_0_25px_5px_rgba(99,102,241,0.4)]"
+            className="absolute left-1/2 top-0 bottom-0 w-[4px] bg-primary via-primary/60 to-transparent transform -translate-x-1/2 z-0 shadow-[0_0_25px_5px_rgba(99,102,241,0.4)]"
           />
 
           {/* Experience Items */}
@@ -72,7 +72,12 @@ export default function ExperienceSection({ experiences = [] }: ExperienceSectio
                       </div>
                       <h3 className="text-xl font-bold mb-1">{experience.title}</h3>
                       <div className="text-primary font-medium mb-4">{experience.company}</div>
-                      <p className="text-muted-foreground mb-4">{experience.description}</p>
+                      <div className="text-muted-foreground mb-4">
+                        {experience.description.map((a, index)=>(
+
+                      <p key={index} className="my-2">{a}</p>
+            ))}
+                      </div>
                       <div className="flex flex-wrap gap-2">
                         {experience.skills.map((skill) => (
                           <Badge key={skill} variant="secondary">
