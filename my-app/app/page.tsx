@@ -39,70 +39,23 @@ const mockPersonalDetails: PersonalDetailsi = {
   updatedAt: new Date(),
 };
 
-const mockSkills: Skilli[] = [
-  {
-    name: "React",
-    level: 90,
-    category: "Frontend",
-    sequence: 1,
-    imgUrl: "/placeholder.svg",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "TypeScript",
-    level: 85,
-    category: "Frontend",
-    sequence: 2,
-    imgUrl: "/placeholder.svg",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "Next.js",
-    level: 88,
-    category: "Frontend",
-    imgUrl: "/placeholder.svg",
-    sequence: 3,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "Tailwind CSS",
-    level: 92,
-    category: "Frontend",
-    imgUrl: "/placeholder.svg",
-    sequence: 4,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "Node.js",
-    level: 80,
-    category: "Backend",
-    sequence: 5,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "Express",
-    level: 82,
-    category: "Backend",
-    imgUrl: "/placeholder.svg",
-    sequence: 6,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "MongoDB",
-    level: 78,
-    category: "Backend",
-    imgUrl: "/placeholder.svg",
-    sequence: 7,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+export const mockSkills: Skilli[] = [
+  { name: "HTML", level: 95, category: "Frontend", sequence: 1, imgUrl: "/skills/html-1.svg" },
+  { name: "CSS", level: 92, category: "Frontend", sequence: 2, imgUrl: "" },
+  { name: "JavaScript", level: 90, category: "Frontend", sequence: 3, imgUrl: "" },
+  { name: "TypeScript", level: 88, category: "Frontend", sequence: 4, imgUrl: "" },
+  { name: "React.js", level: 90, category: "Frontend", sequence: 5, imgUrl: "" },
+  { name: "Next.js", level: 88, category: "Frontend", sequence: 6, imgUrl: "" },
+  { name: "Redux", level: 85, category: "Frontend", sequence: 7, imgUrl: "" },
+  { name: "Zustand", level: 80, category: "Frontend", sequence: 8, imgUrl: "" },
+  { name: "Tailwind CSS", level: 92, category: "Frontend", sequence: 9, imgUrl: "" },
+  { name: "Shadcn", level: 84, category: "Frontend", sequence: 10, imgUrl: "" },
+  { name: "Node.js", level: 85, category: "Backend", sequence: 11, imgUrl: "" },
+  { name: "Express.js", level: 83, category: "Backend", sequence: 12, imgUrl: "" },
+  { name: "MongoDB", level: 80, category: "Database", sequence: 13, imgUrl: "" },
+  { name: "SQL", level: 78, category: "Database", sequence: 14, imgUrl: "" },
+]
+
 
 const mockProjects: Project[] = [
   {

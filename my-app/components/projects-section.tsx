@@ -1,104 +1,118 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
-import Zoom from "react-medium-image-zoom"
-import 'react-medium-image-zoom/dist/styles.css'
-import { Github, ExternalLink, ChevronLeft, ChevronRight, Play, Pause, Maximize2 } from "lucide-react"
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import {
+  Github,
+  ExternalLink,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+  Maximize2,
+} from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import SectionHeading from "@/components/section-heading"
-import Container from "@/components/container"
-import { cn } from "@/lib/utils"
-import type { Project } from "@/lib/models"
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import SectionHeading from "@/components/section-heading";
+import Container from "@/components/container";
+import { cn } from "@/lib/utils";
+import type { Project } from "@/lib/models";
 
 interface ProjectsSectionProps {
-  projects?: Project[]
+  projects?: Project[];
 }
 
 export default function ProjectsSection({ projects = [] }: ProjectsSectionProps) {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [isSlideshowPlaying, setIsSlideshowPlaying] = useState(false)
-  const [transitionType, setTransitionType] = useState<"fade" | "slide" | "zoom">("fade")
-  const modalRef = useRef<HTMLDivElement | null>(null)
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isSlideshowPlaying, setIsSlideshowPlaying] = useState(false);
+  const [transitionType, setTransitionType] = useState<"fade" | "slide" | "zoom">("fade");
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const allTechnologies = projects.reduce<string[]>((acc, project) => {
     project.technologies.forEach((tech) => {
-      if (!acc.includes(tech)) acc.push(tech)
-    })
-    return acc
-  }, [])
+      if (!acc.includes(tech)) acc.push(tech);
+    });
+    return acc;
+  }, []);
 
   const filteredProjects = activeFilter
     ? projects.filter((project) => project.technologies.includes(activeFilter))
-    : projects
+    : projects;
 
   const openModal = (project: Project, index: number) => {
-    setSelectedProject(project)
-    setCurrentImageIndex(index)
-    setIsModalOpen(true)
-    setIsSlideshowPlaying(false) // Manual trigger
-  }
+    setSelectedProject(project);
+    setCurrentImageIndex(index);
+    setIsModalOpen(true);
+    setIsSlideshowPlaying(false);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedProject(null)
-    setIsSlideshowPlaying(false)
-  }
+    setIsModalOpen(false);
+    setSelectedProject(null);
+    setIsSlideshowPlaying(false);
+  };
 
-  const toggleSlideshow = () => setIsSlideshowPlaying((prev) => !prev)
+  const toggleSlideshow = () => setIsSlideshowPlaying((prev) => !prev);
 
   const nextImage = () => {
-    if (!selectedProject) return
-    setCurrentImageIndex((prev) => (prev + 1) % selectedProject.images.length)
-  }
+    if (!selectedProject) return;
+    setCurrentImageIndex((prev) => (prev + 1) % selectedProject.images.length);
+  };
 
   const prevImage = () => {
-    if (!selectedProject) return
+    if (!selectedProject) return;
     setCurrentImageIndex((prev) =>
       prev === 0 ? selectedProject.images.length - 1 : prev - 1
-    )
-  }
+    );
+  };
 
   useEffect(() => {
-    if (!isSlideshowPlaying || !selectedProject) return
-    const interval = setInterval(nextImage, 3000)
-    return () => clearInterval(interval)
-  }, [isSlideshowPlaying, selectedProject])
+    if (!isSlideshowPlaying || !selectedProject) return;
+    const interval = setInterval(nextImage, 3000);
+    return () => clearInterval(interval);
+  }, [isSlideshowPlaying, selectedProject]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        handleCloseModal()
+        handleCloseModal();
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") nextImage()
-      if (e.key === "ArrowLeft") prevImage()
-    }
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [selectedProject])
+      if (e.key === "ArrowRight") nextImage();
+      if (e.key === "ArrowLeft") prevImage();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [selectedProject]);
 
   return (
     <section id="projects" className="py-20 overflow-hidden">
       <Container>
-        <SectionHeading
-          title="My Projects"
-          subtitle="Check out some of my recent work and personal projects."
-        />
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <SectionHeading
+            title="My Projects"
+            subtitle="Check out some of my recent work and personal projects."
+          />
+        </motion.div>
 
         {/* Filters */}
         <div className="flex justify-center mb-12 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
@@ -140,7 +154,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
           </div>
         </div>
 
-        {/* Projects */}
+        {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
             <motion.div
@@ -152,7 +166,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
               className="parallax-card"
             >
               <Card className="overflow-hidden h-full border-2 hover:border-primary/50 transition-all duration-300 relative">
-                {/* Hover Image with Icon */}
                 <div
                   className="relative h-48 overflow-hidden cursor-pointer group"
                   onClick={() => openModal(project, 0)}
@@ -161,14 +174,17 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                     src={project.images[0] || "/placeholder.svg"}
                     alt={project.title}
                     fill
+                    onError={(e) => {
+                      e.currentTarget.src = "/placeholder.svg";
+                    }}
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Maximize2 className="text-white w-6 h-6" />
+                    <Maximize2 className="text-blue-400 w-6 h-6" />
                   </div>
                 </div>
 
-                <CardContent className="p-6 parallax-card-content flex flex-col">
+                <CardContent className="p-6 flex flex-col">
                   <div className="flex flex-wrap gap-2 mb-3">
                     {project.technologies.map((tech) => (
                       <Badge key={tech} variant="secondary" className="font-normal">
@@ -182,37 +198,36 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                     {project.description}
                   </p>
 
-                 <div className="flex items-center justify-between mt-auto pt-4">
-  <div className="flex space-x-2">
-    {project.githubUrl && (
-      <Button asChild variant="outline" className="gap-1">
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center"
-        >
-          <Github className="h-4 w-4" />
-          <span className="text-xs">GitHub</span>
-        </a>
-      </Button>
-    )}
-    {project.liveUrl && (
-      <Button asChild variant="outline" className="gap-1">
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center"
-        >
-          <ExternalLink className="h-4 w-4" />
-          <span className="text-xs">Live</span>
-        </a>
-      </Button>
-    )}
-  </div>
-</div>
-
+                  <div className="flex items-center justify-between mt-auto pt-4">
+                    <div className="flex space-x-2">
+                      {project.githubUrl && (
+                        <Button asChild variant="outline" className="gap-1">
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center"
+                          >
+                            <Github className="h-4 w-4" />
+                            <span className="text-xs">GitHub</span>
+                          </a>
+                        </Button>
+                      )}
+                      {project.liveUrl && (
+                        <Button asChild variant="outline" className="gap-1">
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                            <span className="text-xs">Live</span>
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -235,7 +250,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
             ref={modalRef}
             className="relative w-full max-w-4xl bg-black rounded-lg overflow-hidden shadow-2xl"
           >
-            {/* Close */}
             <button
               onClick={handleCloseModal}
               className="absolute top-3 right-3 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full z-10"
@@ -243,7 +257,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
               &times;
             </button>
 
-            {/* Animated Image */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImageIndex}
@@ -272,7 +285,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation */}
             <div className="absolute inset-y-0 left-0 flex items-center px-3">
               <button
                 onClick={prevImage}
@@ -290,7 +302,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
               </button>
             </div>
 
-            {/* Bottom Controls */}
             <div className="flex justify-center items-center py-4 bg-black/80 space-x-4 flex-wrap">
               <button
                 onClick={toggleSlideshow}
@@ -315,5 +326,5 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
         </div>
       )}
     </section>
-  )
+  );
 }
