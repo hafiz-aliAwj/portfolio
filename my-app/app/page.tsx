@@ -33,7 +33,6 @@ const mockPersonalDetails: PersonalDetailsi = {
   socialLinks: {
     github: "https://github.com",
     linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
   },
   createdAt: new Date(),
   updatedAt: new Date(),
@@ -61,7 +60,7 @@ const mockProjects: Project[] = [
   {
     title: "Simmates",
     description:
-      "A full-featured e-commerce platform with product management, cart, and checkout functionality.",
+      ["A full-featured e-commerce platform with product management, cart, and checkout functionality."],
     longDescription:
       "This project is a comprehensive e-commerce solution built with Next.js, featuring product management, shopping cart, secure checkout, and admin dashboard.",
     images: [
@@ -95,7 +94,7 @@ const mockProjects: Project[] = [
   {
     title: "Portfolio Website",
     description:
-      "A modern portfolio website showcasing projects and skills with animations and interactions.",
+      ["A modern portfolio website showcasing projects and skills with animations and interactions."],
     longDescription:
       "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
     images: [
@@ -125,7 +124,7 @@ const mockProjects: Project[] = [
   {
     title: "Task Management App",
     description:
-      "A collaborative task management application with real-time updates and team features.",
+      ["A collaborative task management application with real-time updates and team features."],
     longDescription:
       "A task management application with real-time updates, team collaboration features, and progress tracking.",
     images: ["/projects/portfolio/port1.png", "/projects/portfolio/port2.png"],
@@ -145,7 +144,7 @@ const mockProjects: Project[] = [
   },{
     title: "Portfolio Website",
     description:
-      "A modern portfolio website showcasing projects and skills with animations and interactions.",
+      ["A modern portfolio website showcasing projects and skills with animations and interactions."],
     longDescription:
       "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
     images: [
