@@ -59,10 +59,8 @@ export const mockSkills: Skilli[] = [
 const mockProjects: Project[] = [
   {
     title: "Simmates",
-    description:
-      ["A full-featured e-commerce platform with product management, cart, and checkout functionality."],
-    longDescription:
-      "This project is a comprehensive e-commerce solution built with Next.js, featuring product management, shopping cart, secure checkout, and admin dashboard.",
+    description:"A full-featured e-commerce platform with product management, cart, and checkout functionality.",
+    longDescription:["This project is a comprehensive e-commerce solution built with Next.js, featuring product management, shopping cart, secure checkout, and admin dashboard."],
     images: [
       "/projects/simmates/s1.png",
       "/projects/simmates/s2.png",
@@ -88,15 +86,13 @@ const mockProjects: Project[] = [
       "Order tracking",
     ],
     sequence: 1,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },
   {
     title: "Portfolio Website",
     description:
-      ["A modern portfolio website showcasing projects and skills with animations and interactions."],
+      "A modern portfolio website showcasing projects and skills with animations and interactions.",
     longDescription:
-      "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
+      ["A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form."],
     images: [
       "/projects/parking/p1.png",
       "/projects/parking/p2.png",
@@ -118,15 +114,11 @@ const mockProjects: Project[] = [
       "Contact form",
     ],
     sequence: 2,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },
   {
     title: "Task Management App",
-    description:
-      ["A collaborative task management application with real-time updates and team features."],
-    longDescription:
-      "A task management application with real-time updates, team collaboration features, and progress tracking.",
+    description:"A collaborative task management application with real-time updates and team features.",
+    longDescription:["A task management application with real-time updates, team collaboration features, and progress tracking.","A task management application with real-time updates, team collaboration features, and progress tracking."],
     images: ["/projects/portfolio/port1.png", "/projects/portfolio/port2.png"],
     technologies: ["React", "Firebase", "Tailwind CSS", "Redux"],
     keywords: ["productivity", "web app", "collaboration"],
@@ -139,14 +131,10 @@ const mockProjects: Project[] = [
       "Progress tracking",
     ],
     sequence: 3,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },{
     title: "Portfolio Website",
-    description:
-      ["A modern portfolio website showcasing projects and skills with animations and interactions."],
-    longDescription:
-      "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
+    description:"A modern portfolio website showcasing projects and skills with animations and interactions.",
+    longDescription:["A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form."],
     images: [
       "/projects/assignment/1.png"
     ],
@@ -161,8 +149,6 @@ const mockProjects: Project[] = [
       "Contact form",
     ],
     sequence: 2,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   },
 ];
 

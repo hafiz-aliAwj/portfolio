@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import CardFlip from "react-card-flip";
 import {
   Github,
   ExternalLink,
@@ -14,13 +14,14 @@ import {
   Play,
   Pause,
   Maximize2,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import SectionHeading from "@/components/section-heading";
-import Container from "@/components/container";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/lib/models";
 
@@ -29,7 +30,8 @@ interface ProjectsSectionProps {
 }
 
 export default function ProjectsSection({ projects = [] }: ProjectsSectionProps) {
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -37,16 +39,13 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
   const [transitionType, setTransitionType] = useState<"fade" | "slide" | "zoom">("fade");
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const allTechnologies = projects.reduce<string[]>((acc, project) => {
-    project.technologies.forEach((tech) => {
-      if (!acc.includes(tech)) acc.push(tech);
-    });
-    return acc;
-  }, []);
+  const toggleFlip = (projectId: string) => {
+    setFlippedCards((prev) => ({ ...prev, [projectId]: !prev[projectId] }));
+  };
 
-  const filteredProjects = activeFilter
-    ? projects.filter((project) => project.technologies.includes(activeFilter))
-    : projects;
+  const toggleExpand = (projectId: string) => {
+    setExpandedCards((prev) => ({ ...prev, [projectId]: !prev[projectId] }));
+  };
 
   const openModal = (project: Project, index: number) => {
     setSelectedProject(project);
@@ -62,12 +61,10 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
   };
 
   const toggleSlideshow = () => setIsSlideshowPlaying((prev) => !prev);
-
   const nextImage = () => {
     if (!selectedProject) return;
     setCurrentImageIndex((prev) => (prev + 1) % selectedProject.images.length);
   };
-
   const prevImage = () => {
     if (!selectedProject) return;
     setCurrentImageIndex((prev) =>
@@ -92,171 +89,153 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") nextImage();
-      if (e.key === "ArrowLeft") prevImage();
+    document.body.style.overflow = isModalOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
     };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [selectedProject]);
+  }, [isModalOpen]);
 
   return (
-    <section id="projects" className="py-20 overflow-hidden">
-      <Container>
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <SectionHeading
-            title="My Projects"
-            subtitle="Check out some of my recent work and personal projects."
-          />
-        </motion.div>
+    <section className="relative w-full px-4 py-20 bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeading
+          title="Projects"
+          subtitle="Explore some of the personal and professional projects I’ve crafted."
+        />
 
-        {/* Filters */}
-        <div className="flex justify-center mb-12 overflow-x-auto pb-2 -mx-4 px-4 scrollbar-hide">
-          <div className="flex flex-nowrap gap-2">
-            <motion.button
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all hover-target whitespace-nowrap",
-                activeFilter === null
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary hover:bg-secondary/80"
-              )}
-              onClick={() => setActiveFilter(null)}
-            >
-              All
-            </motion.button>
+        <div className="flex flex-wrap justify-center gap-6 mt-12">
+          {projects.map((project, index) => {
+            const projectId = `${index}`;
+            const isFlipped = flippedCards[projectId] || false;
+            const isExpanded = expandedCards[projectId] || false;
 
-            {allTechnologies.map((tech, index) => (
-              <motion.button
-                key={tech}
-                initial={{ opacity: 0, y: 20 }}
+            return (
+              <motion.div
+                key={projectId}
+                className="w-[calc(33.333%-2rem)] overflow-hidden min-w-[300px] flex-shrink-0"
+                initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.05 * index }}
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-all hover-target whitespace-nowrap",
-                  activeFilter === tech
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary hover:bg-secondary/80"
-                )}
-                onClick={() => setActiveFilter(tech)}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                {tech}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project._id?.toString() || index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="parallax-card"
-            >
-              <Card className="overflow-hidden h-full border-2 hover:border-primary/50 transition-all duration-300 relative">
-                <div
-                  className="relative h-48 overflow-hidden cursor-pointer group"
-                  onClick={() => openModal(project, 0)}
-                >
-                  <Image
-                    src={project.images[0] || "/placeholder.svg"}
-                    alt={project.title}
-                    fill
-                    onError={(e) => {
-                      e.currentTarget.src = "/placeholder.svg";
-                    }}
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Maximize2 className="text-blue-400 w-6 h-6" />
-                  </div>
-                </div>
-
-                <CardContent className="p-6 flex flex-col">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary" className="font-normal">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
-
-                  <div className="flex items-center justify-between mt-auto pt-4">
-                    <div className="flex space-x-2">
-                      {project.githubUrl && (
-                        <Button asChild variant="outline" className="gap-1">
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center"
-                          >
-                            <Github className="h-4 w-4" />
-                            <span className="text-xs">GitHub</span>
-                          </a>
-                        </Button>
-                      )}
-                      {project.liveUrl && (
-                        <Button asChild variant="outline" className="gap-1">
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                            <span className="text-xs">Live</span>
-                          </a>
-                        </Button>
-                      )}
+                <CardFlip isFlipped={isFlipped} flipDirection="horizontal">
+                  {/* Front Side */}
+                  <Card
+                    className={cn(
+                      "flex flex-col border border-white/10 backdrop-blur-lg bg-white/5 rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl ",
+                      isExpanded ? "h-[34rem]" : "h-[26rem]"
+                    )}
+                  >
+                    <div
+                      className="relative h-48 overflow-hidden cursor-pointer group"
+                      onClick={() => openModal(project, 0)}
+                    >
+                      <Image
+                        src={project.images[0] || "/placeholder.svg"}
+                        alt={project.title}
+                        fill
+                        className="object-cover rounded-t-2xl group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <Maximize2 className="text-blue-400 w-6 h-6" />
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                    <CardContent className="p-4 flex flex-col flex-grow">
+                      <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                      <p className={cn("text-sm text-muted-foreground mb-2 transition-all duration-300", !isExpanded && "line-clamp-2")}>
+                        {project.description}
+                      </p>
+                      {/* {project.description.length > 70 && (
+                        <button
+                          onClick={() => toggleExpand(projectId)}
+                          className="text-blue-400 hover:text-blue-300 text-xs flex items-center"
+                        >
+                          {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </button>
+                      )} */}
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {project.technologies.map((tech) => (
+                          <Badge key={tech} variant="secondary">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="mt-auto pt-4 flex justify-between items-center">
+                        <div className="flex gap-2">
+                          {project.githubUrl && (
+                            <Button asChild variant="outline" className="gap-1">
+                              <a href={project.githubUrl} target="_blank">
+                                <Github className="w-4 h-4" />
+                                GitHub
+                              </a>
+                            </Button>
+                          )}
+                          {project.liveUrl && (
+                            <Button asChild variant="outline" className="gap-1">
+                              <a href={project.liveUrl} target="_blank">
+                                <ExternalLink className="w-4 h-4" />
+                                Live
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                        <Button size="sm" onClick={() => toggleFlip(projectId)}>
+                          Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-        {filteredProjects.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">
-              No projects found with the selected filter.
-            </p>
-          </div>
-        )}
-      </Container>
+                  {/* Back Side */}
+                  <Card className="overflow-y-auto flex flex-col justify-stretch items-start border border-blue-500 bg-gray-900 text-white p-6 rounded-2xl shadow-md h-[26rem]">
+                    <h3 className="text-xl font-bold mb-4">{project.title}</h3>
+                    <div className={"overflow-y-scroll custom-scroll"}>
+                       {project.longDescription && (
+                      <div className="mb-4 space-y-2 text-sm">
+                        {project.longDescription.map((item, i) => (
+                          <p key={i} className="leading-relaxed text-white/80">
+                            • {item}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                    {project.features && (
+                      <div className="mb-4">
+                        <h4 className="font-semibold mb-1">Features:</h4>
+                        <ul className="list-disc list-inside text-sm space-y-1">
+                          {project.features.map((feat, i) => (
+                            <li key={i}>{feat}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    </div>
+                   
+                    <div className="mt-auto flex flex-row w-full justify-between">
+                      <Button size="sm" onClick={() => toggleFlip(projectId)}>
+                        Back
+                      </Button>
+                      <Button variant="outline" onClick={() => openModal(project, 0)}>
+                        View Images
+                      </Button>
+                    </div>
+                  </Card>
+                </CardFlip>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Modal */}
       {isModalOpen && selectedProject && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 h-full flex justify-center items-center px-4">
+        <div className="fixed inset-0 z-[100] bg-black bg-opacity-95 backdrop-blur-sm flex justify-center items-center p-4">
           <div
             ref={modalRef}
-            className="relative w-full max-w-4xl bg-black rounded-lg overflow-hidden shadow-2xl"
+            className="relative w-full max-w-5xl bg-gray-900 rounded-lg overflow-hidden shadow-2xl flex flex-col"
           >
-            <button
-              onClick={handleCloseModal}
-              className="absolute top-3 right-3 text-white bg-white/10 hover:bg-white/20 p-2 rounded-full z-10"
-            >
+            <button onClick={handleCloseModal} className="absolute top-3 right-3 text-white p-2 z-20 rounded-full">
               &times;
             </button>
-
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentImageIndex}
@@ -272,40 +251,35 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                   scale: transitionType === "zoom" ? 0.8 : 1,
                 }}
                 transition={{ duration: 0.5 }}
-                className="relative w-full h-[32rem] bg-black"
+                className="relative w-full h-[30rem] sm:h-[34rem] flex justify-center items-center bg-black"
               >
                 <Zoom>
                   <Image
                     src={selectedProject.images[currentImageIndex] || "/placeholder.svg"}
                     alt={selectedProject.title}
                     fill
-                    className="object-contain"
+                    className="object-contain select-none"
                   />
                 </Zoom>
               </motion.div>
             </AnimatePresence>
 
+            {/* Controls */}
             <div className="absolute inset-y-0 left-0 flex items-center px-3">
-              <button
-                onClick={prevImage}
-                className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full shadow-md"
-              >
-                <ChevronLeft size={24} />
+              <button onClick={prevImage} className="text-white p-3 bg-white/10 hover:bg-white/20 rounded-full">
+                <ChevronLeft size={28} />
               </button>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center px-3">
-              <button
-                onClick={nextImage}
-                className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full shadow-md"
-              >
-                <ChevronRight size={24} />
+              <button onClick={nextImage} className="text-white p-3 bg-white/10 hover:bg-white/20 rounded-full">
+                <ChevronRight size={28} />
               </button>
             </div>
 
-            <div className="flex justify-center items-center py-4 bg-black/80 space-x-4 flex-wrap">
+            <div className="flex justify-center items-center py-3 bg-gray-900/90 border-t border-gray-700 space-x-4">
               <button
                 onClick={toggleSlideshow}
-                className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full shadow-md"
+                className="text-white p-2 bg-white/10 hover:bg-white/20 rounded-full"
               >
                 {isSlideshowPlaying ? <Pause size={20} /> : <Play size={20} />}
               </button>
@@ -313,7 +287,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                 {currentImageIndex + 1} / {selectedProject.images.length}
               </span>
               <select
-                className="text-white bg-white/10 hover:bg-white/20 p-2 rounded shadow-md text-sm"
+                className="text-white bg-white/10 hover:bg-white/20 p-2 rounded text-sm"
                 value={transitionType}
                 onChange={(e) => setTransitionType(e.target.value as any)}
               >

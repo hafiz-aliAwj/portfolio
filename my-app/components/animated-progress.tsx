@@ -53,7 +53,7 @@ export default function AnimatedProgress({
           {showValue && <span className="text-sm font-medium">{value}%</span>}
         </div>
       )}
-      <div className={cn("w-full bg-secondary rounded-full overflow-hidden", `h-${height}`)} style={{ height }}>
+      <div className={cn("w-full bg-accent  rounded-full overflow-hidden", `h-${height}`)} style={{ height }}>
         <motion.div
           initial={{ width: 0 }}
           animate={isInView ? { width: `${percentage}%` } : { width: 0 }}

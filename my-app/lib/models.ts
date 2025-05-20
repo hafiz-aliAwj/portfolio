@@ -14,10 +14,9 @@ export interface User {
 
 // Project model
 export interface Project {
-  _id?: mongoose.Types.ObjectId
   title: string
-  description: string[]
-  longDescription?: string
+  description: string
+  longDescription?: string[]
   images: string[]
   technologies: string[]
   keywords?: string[]
@@ -28,8 +27,6 @@ export interface Project {
   duration?: string
   role?: string
   sequence: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 // Skill model
