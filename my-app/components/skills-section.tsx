@@ -48,58 +48,54 @@ export default function SkillsSection({ skills = [] }: SkillsSectionProps) {
 
   const categories = Object.keys(skillsByCategory);
 
-  const renderSkillCard = (skill: Skilli, index: number) => (
-    <motion.div
-      key={skill._id?.toString() || index}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      whileHover={{ scale: 1.015 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      className="h-full"
-    >
-      <Card className="overflow-hidden h-full shadow-sm hover:shadow-lg transition-shadow duration-300">
-        <CardContent className="p-6">
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center gap-3">
-              <div className="relative w-[50px] h-[50px] shrink-0">
-                {skill.imgUrl ? (
-                  <Image
-                    src={skill.imgUrl}
-                    alt={skill.name}
-                    fill
-                    className=" border-2 border-gray-200 object-cover transition-opacity duration-300"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = "none";
-                      const fallback = target.parentElement?.querySelector(".fallback-avatar") as HTMLElement;
-                      fallback?.classList.remove("hidden");
-                    }}
-                  />
-                ) : null}
-                <div
-                  className={cn(
-                    "fallback-avatar hidden absolute inset-0 rounded-full flex items-center justify-center font-bold",
-                    "bg-blue-400 text-black dark:text-white"
+  const renderSkillCard = (skill: Skilli, index: number) => {
+    const [imgError, setImgError] = useState(false);
+
+    return (
+      <motion.div
+        key={skill._id?.toString() || index}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        whileHover={{ scale: 1.015 }}
+        transition={{ duration: 0.4, delay: index * 0.05 }}
+        className="h-full"
+      >
+        <Card className="overflow-hidden h-full shadow-sm hover:shadow-lg transition-shadow duration-300">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex items-center gap-3">
+                <div className="relative w-[50px] h-[50px] shrink-0 rounded-full bg-transparent">
+                  {!imgError && skill.imgUrl && (
+                    <Image
+                      src={skill.imgUrl}
+                      alt={skill.name}
+                      fill
+                      className="rounded-full border-2 border-gray-200 object-cover transition-opacity duration-300"
+                      onError={() => setImgError(true)}
+                    />
                   )}
-                >
-                  {skill.name.charAt(0).toUpperCase()}
+                  {(imgError || !skill.imgUrl) && (
+                    <div className="absolute inset-0 rounded-full flex items-center justify-center font-bold text-black dark:text-white">
+                      {skill.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                 </div>
+                <h3 className="text-lg font-semibold">{skill.name}</h3>
               </div>
-              <h3 className="text-lg font-semibold">{skill.name}</h3>
+              <span className="text-sm font-medium text-primary">{skill.level}%</span>
             </div>
-            <span className="text-sm font-medium text-primary">{skill.level}%</span>
-          </div>
-          <AnimatedProgress
-            value={skill.level}
-            color="primary"
-            height={8}
-            delay={0.2 + index * 0.05}
-          />
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
+            <AnimatedProgress
+              value={skill.level}
+              color="primary"
+              height={8}
+              delay={0.2 + index * 0.05}
+            />
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
+  };
 
   return (
     <section id="skills" className="py-20 xl:px-14 bg-muted/30 transition-colors duration-300">
@@ -170,7 +166,11 @@ export default function SkillsSection({ skills = [] }: SkillsSectionProps) {
                   <div
                     key={skill._id?.toString() || index}
                     style={{
-                      flex: `${skillsByCategory[activeCategory].length > 2 ? "1 1 calc(33.333% - 16px)" : "1 1 calc(50% - 16px)"} `,
+                      flex: `${
+                        skillsByCategory[activeCategory].length > 2
+                          ? "1 1 calc(33.333% - 16px)"
+                          : "1 1 calc(50% - 16px)"
+                      }`,
                       minWidth: "300px",
                       maxWidth: "calc(33.333% - 16px)",
                     }}
