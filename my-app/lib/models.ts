@@ -16,7 +16,7 @@ export interface User {
 export interface Project {
   _id?: mongoose.Types.ObjectId
   title: string
-  description: string
+  description: string[]
   longDescription?: string
   images: string[]
   technologies: string[]
