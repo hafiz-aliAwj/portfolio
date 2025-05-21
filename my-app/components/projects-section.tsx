@@ -96,7 +96,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
   }, [isModalOpen]);
 
   return (
-    <section className="relative w-full px-4 py-20 bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white overflow-hidden">
+    <section className="relative w-full px-4 py-20 bg-muted/50  overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
           title="Projects"
@@ -121,7 +121,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                   {/* Front Side */}
                   <Card
                     className={cn(
-                      "flex flex-col border border-white/10 backdrop-blur-lg bg-white/5 rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl ",
+                      "flex flex-col border border-border bg-background/50 backdrop-blur-lg rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl",
                       isExpanded ? "h-[34rem]" : "h-[26rem]"
                     )}
                   >
@@ -136,7 +136,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                         className="object-cover rounded-t-2xl group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Maximize2 className="text-blue-400 w-6 h-6" />
+                        <Maximize2 className="text-primary w-6 h-6" />
                       </div>
                     </div>
                     <CardContent className="p-4 flex flex-col flex-grow">
@@ -144,14 +144,6 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                       <p className={cn("text-sm text-muted-foreground mb-2 transition-all duration-300", !isExpanded && "line-clamp-2")}>
                         {project.description}
                       </p>
-                      {/* {project.description.length > 70 && (
-                        <button
-                          onClick={() => toggleExpand(projectId)}
-                          className="text-blue-400 hover:text-blue-300 text-xs flex items-center"
-                        >
-                          {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                        </button>
-                      )} */}
                       <div className="flex flex-wrap gap-2 mt-2">
                         {project.technologies.map((tech) => (
                           <Badge key={tech} variant="secondary">
@@ -186,30 +178,29 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                   </Card>
 
                   {/* Back Side */}
-                  <Card className="overflow-y-auto flex flex-col justify-stretch items-start border border-blue-500 bg-gray-900 text-white p-6 rounded-2xl shadow-md h-[26rem]">
+                  <Card className="overflow-y-auto flex flex-col justify-stretch items-start border border-primary bg-background p-6 rounded-2xl shadow-md h-[26rem]">
                     <h3 className="text-xl font-bold mb-4">{project.title}</h3>
-                    <div className={"overflow-y-scroll custom-scroll"}>
-                       {project.longDescription && (
-                      <div className="mb-4 space-y-2 text-sm">
-                        {project.longDescription.map((item, i) => (
-                          <p key={i} className="leading-relaxed text-white/80">
-                            • {item}
-                          </p>
-                        ))}
-                      </div>
-                    )}
-                    {project.features && (
-                      <div className="mb-4">
-                        <h4 className="font-semibold mb-1">Features:</h4>
-                        <ul className="list-disc list-inside text-sm space-y-1">
-                          {project.features.map((feat, i) => (
-                            <li key={i}>{feat}</li>
+                    <div className="overflow-y-scroll custom-scroll">
+                      {project.longDescription && (
+                        <div className="mb-4 space-y-2 text-sm">
+                          {project.longDescription.map((item, i) => (
+                            <p key={i} className="leading-relaxed text-foreground/80">
+                              • {item}
+                            </p>
                           ))}
-                        </ul>
-                      </div>
-                    )}
+                        </div>
+                      )}
+                      {project.features && (
+                        <div className="mb-4">
+                          <h4 className="font-semibold mb-1">Features:</h4>
+                          <ul className="list-disc list-inside text-sm space-y-1">
+                            {project.features.map((feat, i) => (
+                              <li key={i}>{feat}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
-                   
                     <div className="mt-auto flex flex-row w-full justify-between">
                       <Button size="sm" onClick={() => toggleFlip(projectId)}>
                         Back
@@ -228,12 +219,12 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
 
       {/* Modal */}
       {isModalOpen && selectedProject && (
-        <div className="fixed inset-0 z-[100] bg-black bg-opacity-95 backdrop-blur-sm flex justify-center items-center p-4">
+        <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex justify-center items-center p-4">
           <div
             ref={modalRef}
-            className="relative w-full max-w-5xl bg-gray-900 rounded-lg overflow-hidden shadow-2xl flex flex-col"
+            className="relative w-full max-w-5xl bg-background rounded-lg overflow-hidden shadow-2xl flex flex-col"
           >
-            <button onClick={handleCloseModal} className="absolute top-3 right-3 text-white p-2 z-20 rounded-full">
+            <button onClick={handleCloseModal} className="absolute top-3 right-3 text-foreground p-2 z-20 rounded-full">
               &times;
             </button>
             <AnimatePresence mode="wait">
@@ -264,22 +255,21 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
               </motion.div>
             </AnimatePresence>
 
-            {/* Controls */}
             <div className="absolute inset-y-0 left-0 flex items-center px-3">
-              <button onClick={prevImage} className="text-white p-3 bg-white/10 hover:bg-white/20 rounded-full">
+              <button onClick={prevImage} className="text-white p-3 bg-primary/20 hover:bg-primary/40 rounded-full">
                 <ChevronLeft size={28} />
               </button>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center px-3">
-              <button onClick={nextImage} className="text-white p-3 bg-white/10 hover:bg-white/20 rounded-full">
+              <button onClick={nextImage} className="text-white p-3 bg-primary/20 hover:bg-primary/40 rounded-full">
                 <ChevronRight size={28} />
               </button>
             </div>
 
-            <div className="flex justify-center items-center py-3 bg-gray-900/90 border-t border-gray-700 space-x-4">
+            <div className="flex justify-center items-center py-3 bg-background/90 border-t border-border space-x-4">
               <button
                 onClick={toggleSlideshow}
-                className="text-white p-2 bg-white/10 hover:bg-white/20 rounded-full"
+                className="text-white p-2 bg-primary/20 hover:bg-primary/40 rounded-full"
               >
                 {isSlideshowPlaying ? <Pause size={20} /> : <Play size={20} />}
               </button>
@@ -287,7 +277,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                 {currentImageIndex + 1} / {selectedProject.images.length}
               </span>
               <select
-                className="text-white bg-white/10 hover:bg-white/20 p-2 rounded text-sm"
+                className="text-white bg-primary/20 hover:bg-primary/40 p-2 rounded text-sm"
                 value={transitionType}
                 onChange={(e) => setTransitionType(e.target.value as any)}
               >
