@@ -101,7 +101,10 @@ export default function Footer({ personalDetails }: FooterProps) {
 
             <div className="flex items-center space-x-4">
               <SocialLinks socialLinks={personalDetails?.socialLinks} variant="ghost" size="sm" />
-              <ThemeToggle />
+<nav className="flex items-center space-x-4">
+  <ThemeToggle />
+</nav>
+
             </div>
           </motion.div>
         </div>

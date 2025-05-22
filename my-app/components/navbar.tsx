@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { cn } from "@/lib/utils"
-import { useMobile } from "@/hooks/use-mobile"
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
+import { useMobile } from "@/hooks/use-mobile";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -18,43 +18,48 @@ const navLinks = [
   { href: "/#projects", label: "Projects" },
   { href: "/#experience", label: "Experience" },
   { href: "/#contact", label: "Contact" },
-]
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const isMobile = useMobile()
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isMobile = useMobile();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+      setIsScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    setMobileMenuOpen(false)
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
 
     if (href.includes("#")) {
-      const id = href.split("#")[1]
-      const element = document.getElementById(id)
+      const id = href.split("#")[1];
+      const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
+        element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      window.location.href = href
+      window.location.href = href;
     }
-  }
+  };
 
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-40 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5",
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md shadow-sm py-3"
+          : "bg-transparent py-5"
       )}
     >
       <div className="container flex items-center justify-between">
@@ -83,7 +88,9 @@ export default function Navbar() {
                 onClick={(e) => scrollToSection(e, link.href)}
                 className={cn(
                   "text-sm font-medium transition-colors hover-target",
-                  pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-primary",
+                  pathname === link.href
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
                 )}
               >
                 {link.label}
@@ -95,15 +102,25 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
-            <ThemeToggle />
+            <nav className="flex items-center space-x-4">
+  <ThemeToggle />
+</nav>
+
           </motion.div>
         </nav>
 
         {/* Mobile Navigation Toggle */}
         <div className="flex items-center md:hidden">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" className="ml-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            <Menu className={cn("h-6 w-6", mobileMenuOpen ? "hidden" : "block")} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="ml-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Menu
+              className={cn("h-6 w-6", mobileMenuOpen ? "hidden" : "block")}
+            />
             <X className={cn("h-6 w-6", mobileMenuOpen ? "block" : "hidden")} />
             <span className="sr-only">Toggle menu</span>
           </Button>
@@ -133,7 +150,9 @@ export default function Navbar() {
                     onClick={(e) => scrollToSection(e, link.href)}
                     className={cn(
                       "block py-2 text-base font-medium transition-colors",
-                      pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-primary",
+                      pathname === link.href
+                        ? "text-primary"
+                        : "text-muted-foreground hover:text-primary"
                     )}
                   >
                     {link.label}
@@ -145,5 +164,5 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }

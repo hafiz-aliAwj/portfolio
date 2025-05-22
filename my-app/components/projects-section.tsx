@@ -96,7 +96,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
   }, [isModalOpen]);
 
   return (
-    <section className="relative w-full px-4 py-20 bg-muted/50  overflow-hidden">
+    <section className="relative w-full px-4 py-20 bg-muted/50 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <SectionHeading
           title="Projects"
@@ -121,7 +121,7 @@ export default function ProjectsSection({ projects = [] }: ProjectsSectionProps)
                   {/* Front Side */}
                   <Card
                     className={cn(
-                      "flex flex-col border border-border bg-background/50 backdrop-blur-lg rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl",
+                      "flex flex-col border border-border bg-background/50 backdrop-blur-lg rounded-2xl transition-all duration-500",
                       isExpanded ? "h-[34rem]" : "h-[26rem]"
                     )}
                   >
