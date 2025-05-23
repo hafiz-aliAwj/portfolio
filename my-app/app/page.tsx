@@ -41,48 +41,48 @@ const mockPersonalDetails: PersonalDetailsi = {
 export const mockSkills: Skilli[] = [
   {
     name: "HTML",
-    level: 95,
+    level: 90,
     category: "Frontend",
     sequence: 1,
     imgUrl: "/skills/html-1.svg",
   },
-  { name: "CSS", level: 92, category: "Frontend", sequence: 2, imgUrl: "" },
+  { name: "CSS", level: 80, category: "Frontend", sequence: 2, imgUrl: "" },
   {
     name: "JavaScript",
-    level: 90,
+    level: 80,
     category: "Frontend",
     sequence: 3,
     imgUrl: "",
   },
   {
     name: "TypeScript",
-    level: 88,
+    level: 80,
     category: "Frontend",
     sequence: 4,
     imgUrl: "",
   },
   {
     name: "React.js",
-    level: 90,
+    level: 80,
     category: "Frontend",
     sequence: 5,
     imgUrl: "",
   },
-  { name: "Next.js", level: 88, category: "Frontend", sequence: 6, imgUrl: "" },
-  { name: "Redux", level: 85, category: "Frontend", sequence: 7, imgUrl: "" },
+  { name: "Next.js", level: 85, category: "Frontend", sequence: 6, imgUrl: "" },
+  { name: "Redux", level: 80, category: "Frontend", sequence: 7, imgUrl: "" },
   { name: "Zustand", level: 80, category: "Frontend", sequence: 8, imgUrl: "" },
   {
     name: "Tailwind CSS",
-    level: 92,
+    level: 80,
     category: "Frontend",
     sequence: 9,
     imgUrl: "",
   },
-  { name: "Shadcn", level: 84, category: "Frontend", sequence: 10, imgUrl: "" },
-  { name: "Node.js", level: 85, category: "Backend", sequence: 11, imgUrl: "" },
+  { name: "Shadcn", level: 80, category: "Frontend", sequence: 10, imgUrl: "" },
+  { name: "Node.js", level: 80, category: "Backend", sequence: 11, imgUrl: "" },
   {
     name: "Express.js",
-    level: 83,
+    level: 80,
     category: "Backend",
     sequence: 12,
     imgUrl: "",
@@ -94,7 +94,7 @@ export const mockSkills: Skilli[] = [
     sequence: 13,
     imgUrl: "",
   },
-  { name: "SQL", level: 78, category: "Database", sequence: 14, imgUrl: "" },
+  { name: "SQL", level: 75, category: "Database", sequence: 14, imgUrl: "" },
 ];
 
 const mockProjects: Project[] = [
@@ -119,10 +119,14 @@ const mockProjects: Project[] = [
       "/projects/simmates/s11.png",
       "/projects/simmates/s12.png",
     ],
-    technologies: ["React", "Next.js", "MongoDB", "Stripe"],
+    technologies: ["Next.js",
+      "SQL Server",
+      "Stripe API",
+      "OAuth",
+      "Tailwind CSS",
+      "ShadCN"],
     keywords: ["e-commerce", "web app", "fullstack"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
+    liveUrl: "https://www.simmates.com",
     features: [
       "User authentication",
       "Product search",
@@ -132,8 +136,8 @@ const mockProjects: Project[] = [
     sequence: 1,
   },
   {
-    title: "Portfolio Website",
-    description:
+   title: "Parking Management",
+   description:
       "A modern portfolio website showcasing projects and skills with animations and interactions.",
     longDescription: [
       "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
@@ -161,7 +165,7 @@ const mockProjects: Project[] = [
     sequence: 2,
   },
   {
-    title: "Task Management App",
+    title: "Portfolio Website",
     description:
       "A collaborative task management application with real-time updates and team features.",
     longDescription: [
@@ -182,7 +186,7 @@ const mockProjects: Project[] = [
     sequence: 3,
   },
   {
-    title: "Portfolio Website",
+    title: "Assignment Portal Server",
     description:
       "A modern portfolio website showcasing projects and skills with animations and interactions.",
     longDescription: [
@@ -205,7 +209,7 @@ const mockProjects: Project[] = [
 
 const mockExperiences: Experiencei[] = [
   {
-    title: "Web Developer Internee",
+    title: "Web Developer Intern",
     company: "TeraHz Solutions",
     period: "Nov 2024 - March 2025",
     description: [
@@ -231,7 +235,7 @@ const mockExperiences: Experiencei[] = [
     updatedAt: new Date(),
   },
   {
-    title: "Front End Developer Internee",
+    title: "Front End Developer Intern",
     company: "Invision Custom Solutions Inc.",
     period: "Summer 2023",
     description: [
@@ -249,10 +253,10 @@ const mockExperiences: Experiencei[] = [
 
 const mockEducation: Educationi[] = [
   {
-    institution: "University of Technology",
-    degree: "Master's",
+    institution: "Adamjee Govt. Science College",
+    degree: "Intermediate",
     field: "Computer Science",
-    period: "2014 - 2016",
+    period: "2022 - 2024",
     description:
       "Specialized in web technologies and software engineering with a focus on modern JavaScript frameworks.",
     achievements: [
@@ -264,10 +268,10 @@ const mockEducation: Educationi[] = [
     updatedAt: new Date(),
   },
   {
-    institution: "State University",
-    degree: "Bachelor's",
+    institution: "MTIS",
+    degree: "Matriculation",
     field: "Software Engineering",
-    period: "2010 - 2014",
+    period: "2020 - 2022",
     description:
       "Comprehensive program covering software development principles, algorithms, and web technologies.",
     achievements: ["Dean's List", "Led student web development club"],
