@@ -29,14 +29,15 @@ const mockPersonalDetails: PersonalDetailsi = {
   email: "hafizaliawj112@gmail.com",
   phone: "+92 322 2820828",
   location: "Karachi, Pakistan",
-  bio: "Passionate about creating beautiful, functional, and accessible websites with impressive animations and interactions. Let's bring your digital vision to life!",
+  bio: "I'm a full stack developer with expertise in the MERN stack and Next.js. I specialize in building fast, scalable backends and crafting visually appealing, interactive, and accessible user interfaces. Whether it's a polished web app or a robust API, I bring ideas to life with clean code and thoughtful design.",
   socialLinks: {
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/hafiz-aliAwj",
+    linkedin: "https://www.linkedin.com/in/ali-awj/",
   },
   createdAt: new Date(),
   updatedAt: new Date(),
 };
+
 
 export const mockSkills: Skilli[] = [
   {
@@ -100,11 +101,17 @@ export const mockSkills: Skilli[] = [
 const mockProjects: Project[] = [
   {
     title: "Simmates",
-    description:
-      "A full-featured e-commerce platform with product management, cart, and checkout functionality.",
-    longDescription: [
-      "This project is a comprehensive e-commerce solution built with Next.js, featuring product management, shopping cart, secure checkout, and admin dashboard.",
-    ],
+   description:
+  "A mobile-responsive eSIM purchasing platform offering region-based data plans, seamless authentication, and real-time eSIM management.",
+longDescription: [
+  "Simmates is a modern eSIM purchasing solution built with Next.js and SQL Server.",
+  "Users can browse data plans by country or region and purchase packages based on their data needs and budget.",
+  "Supports secure authentication via email, Google, or Facebook OAuth.",
+  "Payments are processed through Stripe, with order confirmations and eSIM details delivered via email.",
+  "Mobile-responsive design ensures a seamless experience across devices.",
+  "Built using SQL Server stored procedures for efficient backend operations.",
+  "Includes a user/admin portal to track transactions, manage purchased eSIMs, connect them to devices, and view data usage."
+],
     images: [
       "/projects/simmates/s1.png",
       "/projects/simmates/s2.png",
@@ -125,86 +132,137 @@ const mockProjects: Project[] = [
       "OAuth",
       "Tailwind CSS",
       "ShadCN"],
-    keywords: ["e-commerce", "web app", "fullstack"],
+   keywords: [
+  "eSIM",
+  "data plans",
+  "Next.js",
+  "SQL Server",
+  "Stripe",
+  "OAuth",
+  "mobile-first",
+  "telecom",
+  "stored procedures",
+  "responsive web app"
+],
     liveUrl: "https://www.simmates.com",
     features: [
-      "User authentication",
-      "Product search",
-      "Payment processing",
-      "Order tracking",
-    ],
+  "Country and region-based data plan browsing",
+  "Secure user authentication (Email, Google, Facebook)",
+  "Stripe-based payment processing",
+  "Automated email delivery of eSIM details",
+  "Mobile-responsive design",
+  "Transaction and eSIM management portal",
+  "Data usage monitoring",
+],
     sequence: 1,
   },
-  {
-   title: "Parking Management",
-   description:
-      "A modern portfolio website showcasing projects and skills with animations and interactions.",
-    longDescription: [
-      "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
-    ],
-    images: [
-      "/projects/parking/p1.png",
-      "/projects/parking/p2.png",
-      "/projects/parking/p3.png",
-      "/projects/parking/p4.png",
-      "/projects/parking/p5.png",
-      "/projects/parking/p6.png",
-      "/projects/parking/p7.png",
-      "/projects/parking/p8.png",
-    ],
-    technologies: ["React", "Next.js", "Framer Motion", "Tailwind CSS"],
-    keywords: ["portfolio", "animation", "frontend"],
-    githubUrl: "https://github.com",
+  //{
+   // title: "Parking Management",
+  // description:
+    //  "A modern portfolio website showcasing projects and skills with animations and interactions.",
+   // longDescription: [
+     // "A responsive portfolio website built with Next.js and F  ramer Motion, featuring smooth animations, dark mode, and contact form.",
+   // // ],
+   // images: [
+    //  "/projects/parking/p1.png",
+    //  "/projects/parking/p2.png",
+  //    "/projects/parking/p3.png",
+    //  "/projects/parking/p4.png",
+     // "/projects/parking/p5.png",
+     // "/projects/parking/p6.png",
+     // "/projects/parking/p7.png",
+     // "/projects/parking/p8.png",
+  //  ],
+   // technologies: ["React", "Next.js", "Framer Motion", "Tailwind CSS"],
+   // keywords: ["portfolio", "animation", "frontend"],
+   // githubUrl: "https://github.com",
     // liveUrl: "https://example.com",
-    features: [
-      "Responsive design",
-      "Dark mode",
-      "Animated transitions",
-      "Contact form",
-    ],
-    sequence: 2,
-  },
+   // features: [
+     // "Responsive design",
+      //"Dark mode",
+      //"Animated transitions",
+      //"Contact form",
+    // ],
+    // sequence: 2,
+ // },
   {
     title: "Portfolio Website",
-    description:
-      "A collaborative task management application with real-time updates and team features.",
-    longDescription: [
-      "A task management application with real-time updates, team collaboration features, and progress tracking.",
-      "A task management application with real-time updates, team collaboration features, and progress tracking.",
-    ],
-    images: ["/projects/portfolio/port1.png", "/projects/portfolio/port2.png"],
-    technologies: ["React", "Firebase", "Tailwind CSS", "Redux"],
-    keywords: ["productivity", "web app", "collaboration"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    features: [
-      "Task creation and assignment",
-      "Real-time updates",
-      "Team management",
-      "Progress tracking",
-    ],
-    sequence: 3,
+description:
+  "A modern, mobile-responsive personal portfolio with animations, project showcases, and interactive features.",
+longDescription: [
+  "A fully responsive and visually engaging personal portfolio built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.",
+  "Showcases development skills, featured projects, and professional experience with smooth transitions and animations.",
+  "Includes a downloadable resume, interactive contact form, and support for both dark and light modes.",
+  "Designed with a strong focus on performance, accessibility, and user experience across all devices.",
+  "Serves as a personal branding platform to highlight frontend expertise and career accomplishments.",
+],
+images: ["/projects/portfolio/port1.png", "/projects/portfolio/port2.png"],
+technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+keywords: [
+  "portfolio",
+  "personal website",
+  "Next.js",
+  "frontend development",
+  "Framer Motion",
+  "TypeScript",
+  "responsive design",
+  "dark mode",
+  "resume",
+  "contact form"
+],
+githubUrl: "https://github.com/hafiz-aliAwj/portfolio",
+liveUrl: "https://ali-awj.vercel.app/",
+features: [
+  "Animated project and skills showcase",
+  "Responsive design for all devices",
+  "Framer Motion-powered transitions",
+  "Dark mode and light mode support",
+  "Downloadable resume",
+  "Interactive contact form",
+  "Professional experience timeline",
+],
+sequence: 3,
   },
   {
-    title: "Assignment Portal Server",
-    description:
-      "A modern portfolio website showcasing projects and skills with animations and interactions.",
-    longDescription: [
-      "A responsive portfolio website built with Next.js and Framer Motion, featuring smooth animations, dark mode, and contact form.",
-    ],
-    images: ["/projects/assignment/1.png"],
-    technologies: ["React", "Next.js", "Framer Motion", "Tailwind CSS"],
-    keywords: ["portfolio", "animation", "frontend"],
-    githubUrl: "https://github.com",
-    // liveUrl: "https://example.com",
-    features: [
-      "Responsive design",
-      "Dark mode",
-      "Animated transitions",
-      "Contact form",
-    ],
-    sequence: 2,
-  },
+  title: "Assignment Portal Server",
+  description:
+    "A backend API for an assignment management system with role-based access, file storage, and scoring logic.",
+  longDescription: [
+    "A Node.js and Express.js-based backend for an assignment portal that supports both student and teacher roles.",
+    "Integrates with Google Drive API to securely store and retrieve assignment files.",
+    "Students can upload assignments via file or link, with validations and deadline enforcement.",
+    "Teachers can create assignments with descriptions, deadlines, optional file attachments, and scoring criteria.",
+    "Includes functionality for grading submissions, starring notable work, and generating a real-time leaderboard based on student rankings.",
+    "Features secure authentication using JWT and optimized APIs for performance and scalability."
+  ],
+  images: ["/projects/assignment/1.png"],
+  technologies: ["Node.js", "Express.js", "JWT", "Google Drive API"],
+  keywords: [
+    "Node.js",
+    "backend",
+    "Express.js",
+    "assignment management",
+    "Google Drive API",
+    "REST API",
+    "JWT authentication",
+    "education tech",
+    "leaderboard"
+  ],
+  githubUrl: "https://github.com/MRsabcod/AssignmentPortalServer",
+  liveUrl: "https://assignment-portal-server-gamma.vercel.app/",
+  features: [
+    "Role-based authentication for students and teachers",
+    "Assignment upload with file/link and deadline validation",
+    "Teacher assignment creation with optional files and scoring",
+    "Submission grading and feedback system",
+    "Starred submissions for teachers",
+    "Google Drive API file integration",
+    "Leaderboard based on student scores",
+    "Optimized RESTful APIs"
+  ],
+  sequence: 2
+}
+
 ];
 
 const mockExperiences: Experiencei[] = [
