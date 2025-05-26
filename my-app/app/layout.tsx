@@ -11,9 +11,8 @@ import ParticlesCursor from "@/components/ParticlesCursor"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Portfolio | Creative Developer",
+  title: "Full Stack Developer",
   description: "Personal portfolio showcasing projects, skills, and experience",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
